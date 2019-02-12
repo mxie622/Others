@@ -1,59 +1,40 @@
-# import urllib, urllib2
 import smtplib
+from email.Message import Message
+from time import sleep
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+import os
+print(os.path.dirname(__file__))
 
-username = 'mxie622@gmail.com'
-password = 'xms19911227'
-sender = username
-receivers = ','.join(['mxie622@aucklanduni.ac.nz'])
+smtpserver = 'smtp.gmail.com'
+username = 'mxie622@gmail.com'    #
+password = '****'                 #
+from_addr = 'mxie622@gmail.com'   #
+to_addr = 'mxie622@gmail.com'  #
+# cc_addr = 'huzhenwei@csdn.net'  #
 
-# Multipart
+
+message = Message()
+message['Subject'] = 'Mail Subject' #
+message['From'] = from_addr
+message['To'] = to_addr
+# message['Cc'] = cc_addr
+message.set_payload('Massage body')   #
+# msg = message.as_string()
+
 msg = MIMEMultipart()
-msg['Subject'] = 'Python mail Test'
-msg['From'] = sender
-msg['To'] = receivers
+part = MIMEApplication(open('keras.pdf','rb').read()) #
+part.add_header('Content-Disposition', 'attachment', filename="keras.pdf") #
+msg.attach(part)
 
-# pure text
-puretext = MIMEText('text_part，')
-msg.attach(puretext)
+sm = smtplib.SMTP(smtpserver, port=587, timeout=20)
+sm.set_debuglevel(1)
+sm.ehlo()
+sm.starttls()
+sm.ehlo()
+sm.login(username, password)
+sm.sendmail(from_addr, to_addr, msg.as_string())
+sleep(5)
+sm.quit()
 
-# attached
-
-# xlsx
-xlsxpart = MIMEApplication(open('diabetes.xlsx', 'rb').read())
-xlsxpart.add_header('Content-Disposition', 'attachment', filename='diabetes.xlsx')
-msg.attach(xlsxpart)
-
-# txt files
-txtpart = MIMEApplication(open('stopwords.txt', 'rb').read())
-txtpart.add_header('Content-Disposition', 'attachment', filename='stopwords.txt')
-msg.attach(txtpart)
-
-# jpg
-# jpgpart = MIMEApplication(open('beauty.jpg', 'rb').read())
-# jpgpart.add_header('Content-Disposition', 'attachment', filename='beauty.jpg')
-# msg.attach(jpgpart)
-
-# mp3
-# mp3part = MIMEApplication(open('kenny.mp3', 'rb').read())
-# mp3part.add_header('Content-Disposition', 'attachment', filename='benny.mp3')
-# msg.attach(mp3part)
-
-##  sending
-try:
-    client = smtplib.SMTP()
-    client.connect('smtp.gmail.com')
-    client.login(username, password)
-    client.sendmail(sender, receivers, msg.as_string())
-    client.quit()
-    print('success！')
-except smtplib.SMTPRecipientsRefused:
-    print('Recipient refused')
-except smtplib.SMTPAuthenticationError:
-    print('Auth error')
-except smtplib.SMTPSenderRefused:
-    print('Sender refused')
-# except smtplib.SMTPException,e:
-#     print(e.message)
