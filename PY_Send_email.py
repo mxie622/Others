@@ -31,5 +31,10 @@ sm.sendmail(from_addr, to_addr, msg)
 sleep(5)
 sm.quit()
 
+# Turn on the less secure:
+
+# Gmail ----> google account -----> security ------>  Less secure app access (Turn on)
+
+#--------
 
 # Thanks for : https://blog.csdn.net/huzhenwei/article/details/7524989
