@@ -15,5 +15,5 @@ submitQuery<-function(conn, SQL) {
   return(fetch(dbSendQuery(conn,SQL),-1))
 }
 
-data_easy<-submitQuery(conn_aws, 'select * from macro.desc') # 
+data_easy <- submitQuery(conn_aws, 'select * from macro.desc') # 
 data_easy[1:10,c(1,3)]
