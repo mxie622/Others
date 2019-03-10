@@ -22,7 +22,7 @@ def select_all_tasks(conn):
     :return:
     """
     cur = conn.cursor()
-    cur.execute("SELECT * FROM ceshi LIMIT 5")
+    cur.execute("SELECT * FROM ceshi LIMIT 5") #
 
     rows = cur.fetchall()
 
@@ -46,7 +46,7 @@ def select_all_tasks(conn):
 #         print(row)
 
 def main():
-    database = "/Users/mikexie/test1.db"
+    database = "/Users/mikexie/test1.db" #
 
     # create a database connection
     conn = create_connection(database)
