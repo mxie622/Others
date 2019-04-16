@@ -1,12 +1,4 @@
-/* Self Join Q10
-10.
-Find the routes involving two buses that can go from Craiglockhart to Lochend.
-Show the bus no. and company for the first bus, the name of the stop for the transfer,
-and the bus no. and company for the second bus.
-
-Hint
-Self-join twice to find buses that visit Craiglockhart and Lochend, then join those on matching stops.
-
+/* More Join Q12
 stops(id, name)
 route(num, company, pos, stop)
 stops
@@ -18,6 +10,35 @@ num
 company
 pos
 stop
+
+
+movie
+id	title	yr	director	budget	gross 
+actor
+id	name 
+casting
+movieid	actorid	ord
+
+List the film title and the leading actor for all of the films 'Julie Andrews' played in.
+Did you get "Little Miss Marker twice"?
+
+*/
+
+SELECT movie.title, actor.name
+FROM movie 
+JOIN casting ON casting.movieid = movie.id AND ord = 1
+JOIN actor ON actor.id = casting.actorid
+WHERE movie.id IN (SELECT movieid FROM casting WHERE actorid IN (SELECT id FROM actor WHERE name = 'Julie Andrews'))
+
+
+/* Self Join Q10
+Find the routes involving two buses that can go from Craiglockhart to Lochend.
+Show the bus no. and company for the first bus, the name of the stop for the transfer,
+and the bus no. and company for the second bus.
+
+Hint
+Self-join twice to find buses that visit Craiglockhart and Lochend, then join those on matching stops.
+
 */
 
 
